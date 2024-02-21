@@ -5,8 +5,10 @@ app.get('/' , (req , res) => {
     res.send('Hello World!');
 })
 
-app.get('/oi' , (req , res) => {
-    res.send('Nova mensagem!');
+const lista = [ "Romeu", "Carlos", "Juju", "Débora" ]
+
+app.get('/item' , (req , res) => {
+    res.send(lista);
 })
 
-app.listen(3000); 
+app.listen(3000);
