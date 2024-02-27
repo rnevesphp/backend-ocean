@@ -1,41 +1,48 @@
-const express = require('express');
-const app = express(); 
+const express = require("express");
+const { MongoClient } = require("mongodb");
 
-app.get('/' , (req , res) => {
-    res.send('Hello World!');
-})
+const dbURL = "mongodb+srv://admin:AUwvkLdL85UEqEVV@cluster0.s5s27mc.mongodb.net";
+const dbName = "OceanDatabase2024";
 
-const lista = [ "Romeu", "Carlos", "Juju", "Débora" ]
+const main = async () => {
 
-app.get('/item' , (req , res) => {
-    res.send(lista);
-})
+    const client = new MongoClient(dbURL);
+    console.log("Conectando banco de dados");
+    await client.connect();
 
-app.get( '/item/:id' , (req, res) => {
-    const id = req.params.id ; 
+    const app = express();
 
-    const itemDaLista = lista[id]
+    app.get("/", function (req, res) {
+        res.send("Hello, World!");
+    });
 
-    const numDeElementosNaLista =  lista.length;
+    app.get("/oi", function (req, res) {
+        res.send("Olá, mundo!");
+    });
 
-    id > numDeElementosNaLista || id < 0 ?  
-        res.status(400).send("ID inválido") : 
-        res.send(`${itemDaLista}`) 
-})
+    const lista = ["Rick Sanchez", "Morty Smith", "Summer Smith"];
 
+    app.get("/item", function (req, res) {
+        res.send(lista);
+    });
 
-app.post( '/adicionar' , (req , res) => {
-    const body = req.body
+    app.get("/item/:id", function (req, res) {
     
-    console.log(body)
-    
-    res.send(body)
-   
-   
-    /*  !nomeDoItem ? 
-        "é preciso inserir um nome" : 
-        ((lista.push(nomeDoItem)) , (res.send(`Nome ${nomeDoItem} adicionado`))) */
+        const id = req.params.id;
+        const item = lista[id];
+        res.send(item);
+    });
 
-})
+    app.use(express.json());
 
-app.listen(3000);
+    app.post("/item", function (req, res) {
+        const body = req.body;
+        const item = body.nome;
+        lista.push(item);
+        res.send("Item adicionado com sucesso!");
+    });
+
+    app.listen(3000);
+};
+
+main(); 
