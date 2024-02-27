@@ -5,7 +5,6 @@ const dbURL = "mongodb+srv://admin:AUwvkLdL85UEqEVV@cluster0.s5s27mc.mongodb.net
 const dbName = "OceanDatabase2024";
 
 const main = async () => {
-
     const client = new MongoClient(dbURL);
     console.log("Conectando banco de dados");
     await client.connect();
