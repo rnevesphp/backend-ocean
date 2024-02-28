@@ -55,6 +55,16 @@ const main = async () => {
         )
         res.send(`item ${id} atualizado com sucesso`);
     })
+
+
+    app.delete('/item/:id' , async (req , res) => {
+        const id = req.params.id ;
+        await collection.deleteOne(
+            {
+                _id:new ObjectId(id)
+            })
+        res.send('item removido com  sucesso'); 
+    })
 };
 
 app.listen(3000);
