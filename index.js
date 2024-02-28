@@ -10,7 +10,6 @@ app.use(express.json());
 const dbURL = process.env.DB_URL; 
 const dbName = "OceanDatabase2024";
 
-
 const main = async () => {
     const client = new MongoClient(dbURL);
     const db = client.db(dbName)
