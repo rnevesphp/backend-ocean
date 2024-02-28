@@ -28,7 +28,6 @@ const main = async () => {
     }); */
 
     app.get("/item/:id", async (req, res) => {
-    
         const id = req.params.id;
         const item = await collection.findOne({
             _id : new ObjectId(id)
@@ -38,11 +37,12 @@ const main = async () => {
 
     app.use(express.json());
 
-    app.post("/item", (req, res) => {
-        const body = req.body;
-        const item = body.nome;
-        lista.push(item);
-        res.send("Item adicionado com sucesso!");
+    app.post("/item", async (req, res) => {
+        const item = req.body;
+        await collection.insertOne(item); 
+        res.send(
+            item
+        );
     });
 
     app.listen(3000);
