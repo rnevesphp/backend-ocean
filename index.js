@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require("express");
 const { MongoClient , ObjectId } = require("mongodb");
 
@@ -5,7 +7,7 @@ const app = express();
 app.use(express.json());
 
 // credenciais do Mongo Db 
-const dbURL = "mongodb+srv://admin:AUwvkLdL85UEqEVV@cluster0.s5s27mc.mongodb.net";
+const dbURL = process.env.DB_URL; 
 const dbName = "OceanDatabase2024";
 
 
@@ -24,7 +26,6 @@ const main = async () => {
     // get all items from db
     app.get('/item' , async (req, res) => {
         const items = await collection.find().toArray()
-
         res.send(items)
     })  
 
