@@ -17,6 +17,9 @@ const main = async () => {
 
     console.log("DB CONECTADO"); 
 
+    app.get('/', (req , res) => {
+        res.send('Hello World')
+    })
 
     // get all items from db
     app.get('/item' , async (req, res) => {
