@@ -1,5 +1,5 @@
 const express = require("express");
-const { MongoClient } = require("mongodb");
+const { MongoClient , ObjectId } = require("mongodb");
 
 const dbURL = "mongodb+srv://admin:AUwvkLdL85UEqEVV@cluster0.s5s27mc.mongodb.net";
 const dbName = "OceanDatabase2024";
@@ -11,30 +11,34 @@ const main = async () => {
 
     const app = express();
 
-    app.get("/", function (req, res) {
-        res.send("Hello, World!");
-    });
+    /* const lista = ["Rick Sanchez", "Morty Smith", "Summer Smith"]; */
 
-    app.get("/oi", function (req, res) {
-        res.send("Olá, mundo!");
-    });
+    const db = client.db(dbName)
+    const collection = db.collection('items')
 
-    const lista = ["Rick Sanchez", "Morty Smith", "Summer Smith"];
+    app.get('/item' , async (req, res) => {
+        const items = await collection.find().toArray()
 
-    app.get("/item", function (req, res) {
+        res.send(items)
+    })  
+
+    /*    
+        app.get("/item",  (req, res) => {
         res.send(lista);
-    });
+    }); */
 
-    app.get("/item/:id", function (req, res) {
+    app.get("/item/:id", async (req, res) => {
     
         const id = req.params.id;
-        const item = lista[id];
+        const item = await collection.findOne({
+            _id : new ObjectId(id)
+        }); 
         res.send(item);
     });
 
     app.use(express.json());
 
-    app.post("/item", function (req, res) {
+    app.post("/item", (req, res) => {
         const body = req.body;
         const item = body.nome;
         lista.push(item);
